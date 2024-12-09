@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de comentarios de reuniones coordinadores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos globales */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: white; /* Fondo fuera del formulario */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Evita que el body sea desplazable */
+            font-size: 18px; /* Aumenta el tamaño de fuente global */
+        }
+        .form-container {
+            width: 100%;
+            max-width: 600px; /* Aumenta el ancho máximo del contenedor */
+            max-height: 90vh; /* Limita la altura máxima del contenedor */
+            padding: 20px;
+            background-color: #b0b0b0; /* Fondo del formulario */
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Sombra alrededor del contenedor */
+            animation: fadeIn 0.5s;
+            overflow-y: auto; /* Hace que el contenedor sea desplazable */
+            position: relative;
+        }
+        .form-container::-webkit-scrollbar {
+            width: 0; /* Oculta la barra de desplazamiento */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 60%; /* Ajusta el tamaño del logo */
+            height: auto;
+            animation: fadeIn 1s ease-in-out;
+            filter: contrast(1.2) brightness(1.1); /* Mejora la nitidez del logo */
+        }
+        h1 {
+            text-align: center;
+            color: #007aff;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 24px; /* Aumenta el tamaño de fuente del título */
+            animation: fadeIn 1s ease-in-out;
+        }
+        .form-field {
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .removeFieldButtonContainer {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+        .removeFieldButton {
+            background-color: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .removeFieldButton:hover {
+            background-color: #d92c2a;
+            transform: scale(1.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+            font-size: 18px; /* Aumenta el tamaño de fuente de las etiquetas */
+            animation: fadeIn 1s ease-in-out;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        textarea, input, select {
+            display: block;
+            width: 100%;
+            padding: 12px; /* Aumenta el padding */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+            resize: none; /* Deshabilita la función de expandir */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            color: #333;
+            font-size: 18px; /* Aumenta el tamaño de fuente de los inputs */
+            animation: fadeIn 1s ease-in-out;
+        }
+        textarea:focus, input:focus, select:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.25);
+        }
+        select {
+            width: auto; /* Ajusta el ancho del select */
+        }
+        select option {
+            color: #333;
+        }
+        .priority-low {
+            color: green;
+        }
+        .priority-medium {
+            color: orange;
+        }
+        .priority-high {
+            color: red;
+        }
+        #addFieldButton {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto 15px;
+            font-size: 24px;
+            color: white;
+            background-color: #007aff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            animation: fadeIn 1s ease-in-out;
+        }
+        #addFieldButton:hover {
+            background-color: #005bb5;
+            transform: scale(1.1);
+        }
+        .name-container {
+            display: flex;
+            gap: 10px;
+        }
+        .name-container input {
+            flex: 1;
+        }
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-weight: 600;
+            font-size: 18px; /* Aumenta el tamaño de fuente del botón de envío */
+            animation: fadeIn 1s ease-in-out;
+        }
+        button[type="submit"]:hover {
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+        /* Ajuste del ancho del campo de correo electrónico */
+        #email {
+            max-width: 300px; /* Cambia este valor según tus necesidades */
+        }
+        /* Estilos para el modo oscuro */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .form-container.dark-mode {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+        .dark-mode textarea, .dark-mode input, .dark-mode select {
+            background-color: #333;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+        .dark-mode textarea:focus, .dark-mode input:focus, .dark-mode select:focus {
+            border-color: #007aff;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.25);
+        }
+        .dark-mode select option {
+            color: #e0e0e0;
+        }
+        .dark-mode .removeFieldButton {
+            background-color: #ff3b30;
+        }
+        .dark-mode .removeFieldButton:hover {
+            background-color: #d92c2a;
+        }
+        .dark-mode #addFieldButton {
+            background-color: #007aff;
+        }
+        .dark-mode #addFieldButton:hover {
+            background-color: #005bb5;
+        }
+        .dark-mode button[type="submit"] {
+            background-color: #007aff;
+        }
+        .dark-mode button[type="submit"]:hover {
+            background-color: #005bb5;
+        }
+        .dark-mode label {
+            color: #e0e0e0;
+        }
+        .dark-mode p {
+            color: #e0e0e0;
+        }
+        /* Estilos para el botón de cambio de tema */
+        #toggleThemeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #007aff;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        #toggleThemeButton:hover {
+            color: #005bb5;
+            transform: scale(1.1);
+        }
+        .info-text {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: justify; /* Justifica el texto */
+            animation: fadeIn 1s ease-in-out;
+        }
+        /* Estilos para la ventana modal */
+        .modal {
+            display: none; /* Ocultar por defecto */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="toggleThemeButton" onclick="toggleTheme()">
+        <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+    <div class="form-container">
+        <img src="https://sefaruniversal.com/wp-content/uploads/2021/01/Logo-de-Sefar-Universal-nuevo-rediseno-pagina-web-Abogados-y-Genealogistas-letras-blancas.png" alt="Logo" class="logo">
+        <h1>Formulario de comentarios de reuniones coordinadores</h1>
+        <form id="formulario" onsubmit="return validarFormulario(event)" action="https://formspree.io/f/mqakoqyg" method="POST">
+            <div class="form-field">
+                <label for="email" class="required">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-field name-container">
+                <div>
+                    <label for="nombre" class="required">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div>
+                    <label for="apellido" class="required">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                </div>
+            </div>
+            <div id="campos">
+                <div class="form-field" id="campo-1">
+                    <label for="comentarios-1" class="required">Por favor, ingrese sus comentarios:</label>
+                    <textarea id="comentarios-1" name="comentarios[]" rows="4" maxlength="2000" required></textarea>
+
+                    <label for="prioridad-1" class="required">Prioridad:</label>
+                    <select id="prioridad-1" name="prioridad[]" required onchange="cambiarColor(this)">
+                        <option value="bajo" class="priority-low">Bajo</option>
+                        <option value="medio" class="priority-medium">Medio</option>
+                        <option value="alto" class="priority-high">Urgente</option>
+                    </select>
+                    
+                    <div class="removeFieldButtonContainer">
+                        <button type="button" class="removeFieldButton" onclick="eliminarCampo(this)">X</button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="_replyto" value="tu_correo@example.com">
+            <p class="info-text">Gracias por participar en nuestra reunión de coordinadores. Este formulario tiene como objetivo recopilar tus opiniones, sugerencias y comentarios para mejorar futuras reuniones.</p>
+            <p class="info-text">Por favor, llena cada sección con tus aportes sinceros. Tus comentarios son fundamentales para identificar áreas de mejora y asegurar que nuestras reuniones sean productivas y efectivas.</p>
+            <button type="submit">Enviar</button>
+        </form>
+        <button id="addFieldButton" onclick="duplicarCampos()">+</button>
+    </div>
+
+    <!-- Ventana Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <p>Por favor, complete todos los campos obligatorios.</p>
+        </div>
+    </div>
+
+    <script>
+        function calificar(button, valor) {
+            var ratingContainer = button.closest('.rating');
+            var botones = ratingContainer.querySelectorAll('button');
+            botones.forEach(function(boton) {
+                boton.classList.remove('selected');
+            });
+            button.classList.add('selected');
+        }
+
+        function duplicarCampos() {
+            var camposContainer = document.getElementById('campos');
+            var campoOriginal = document.querySelector('.form-field').cloneNode(true);
+
+            var nuevoId = camposContainer.children.length + 1;
+
+            // Actualizamos IDs y nombres
+            var nuevoCampo = document.createElement('div');
+            nuevoCampo.className = 'form-field';
+            nuevoCampo.id = `campo-${nuevoId}`;
+            
+            var etiquetaComentario = document.createElement('label');
+            etiquetaComentario.setAttribute('for', `comentarios-${nuevoId}`);
+            etiquetaComentario.innerText = 'Por favor, ingrese sus comentarios:';
+            etiquetaComentario.className = 'required';
+
+            var comentario = document.createElement('textarea');
+            comentario.id = `comentarios-${nuevoId}`;
+            comentario.name = 'comentarios[]';
+            comentario.rows = 4;
+            comentario.maxLength = 2000;
+            comentario.required = true;
+
+            var etiquetaPrioridad = document.createElement('label');
+            etiquetaPrioridad.setAttribute('for', `prioridad-${nuevoId}`);
+            etiquetaPrioridad.innerText = 'Prioridad:';
+            etiquetaPrioridad.className = 'required';
+
+            var prioridad = document.createElement('select');
+            prioridad.id = `prioridad-${nuevoId}`;
+            prioridad.name = 'prioridad[]';
+            prioridad.required = true;
+            prioridad.setAttribute('onchange', 'cambiarColor(this)');
+            prioridad.style.width = 'auto'; /* Ajusta el ancho del select */
+            var opciones = [
+                {value: 'bajo', text: 'Bajo', class: 'priority-low'},
+                {value: 'medio', text: 'Medio', class: 'priority-medium'},
+                {value: 'alto', text: 'Urgente', class: 'priority-high'}
+            ];
+            opciones.forEach(function(opcion) {
+                var optionElement = document.createElement('option');
+                optionElement.value = opcion.value;
+                optionElement.innerText = opcion.text;
+                optionElement.className = opcion.class;
+                prioridad.appendChild(optionElement);
+            });
+
+            var removeButtonContainer = document.createElement('div');
+            removeButtonContainer.className = 'removeFieldButtonContainer';
+            var removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'removeFieldButton';
+            removeButton.innerText = 'X';
+            removeButton.onclick = function () {
+                eliminarCampo(this);
+            };
+            removeButtonContainer.appendChild(removeButton);
+
+            nuevoCampo.appendChild(etiquetaComentario);
+            nuevoCampo.appendChild(comentario);
+            nuevoCampo.appendChild(etiquetaPrioridad);
+            nuevoCampo.appendChild(prioridad);
+            nuevoCampo.appendChild(removeButtonContainer);
+
+            camposContainer.appendChild(nuevoCampo);
+        }
+
+        function eliminarCampo(button) {
+            var campo = button.closest('.form-field');
+            if (campo) campo.remove();
+        }
+
+        function validarFormulario(event) {
+            var form = document.getElementById('formulario');
+            var inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+            var valid = true;
+
+            inputs.forEach(function(input) {
+                if (!input.value.trim()) {
+                    valid = false;
+                    input.style.borderColor = 'red';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault();
+                mostrarModal();
+            }
+        }
+
+        function mostrarModal() {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'block';
+        }
+
+        function cerrarModal() {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'none';
+        }
+
+        function toggleTheme() {
+            var body = document.body;
+            var formContainer = document.querySelector('.form-container');
+            var themeIcon = document.getElementById('themeIcon');
+            if (body && formContainer && themeIcon) {
+                body.classList.toggle('dark-mode');
+                formContainer.classList.toggle('dark-mode');
+
+                var isDarkMode = body.classList.contains('dark-mode');
+                try {
+                    localStorage.setItem('darkMode', isDarkMode);
+                } catch (e) {
+                    console.error('Error al guardar en localStorage', e);
+                }
+                themeIcon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        function cambiarColor(selectElement) {
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            if (selectedOption) {
+                selectElement.className = selectedOption.className;
+            }
+        }
+
+        // Cargar el tema preferido al cargar la página
+        window.onload = function() {
+            try {
+                var isDarkMode = localStorage.getItem('darkMode') === 'true';
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    var formContainer = document.querySelector('.form-container');
+                    var themeIcon = document.getElementById('themeIcon');
+                    if (formContainer && themeIcon) {
+                        formContainer.classList.add('dark-mode');
+                        themeIcon.className = 'fas fa-sun';
+                    }
+                }
+            } catch (e) {
+                        console.error('Error al cargar desde localStorage', e);
+                    }
+                }
