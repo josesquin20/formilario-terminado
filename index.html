@@ -312,7 +312,7 @@
                     <select id="prioridad-1" name="prioridad[]" required onchange="cambiarColor(this)">
                         <option value="bajo" class="priority-low">Bajo</option>
                         <option value="medio" class="priority-medium">Medio</option>
-                        <option value="alto" class="priority-high">Alto</option>
+                        <option value="alto" class="priority-high">Urgente</option>
                     </select>
                     
                     <div class="removeFieldButtonContainer">
@@ -383,7 +383,7 @@
             var opciones = [
                 {value: 'bajo', text: 'Bajo', class: 'priority-low'},
                 {value: 'medio', text: 'Medio', class: 'priority-medium'},
-                {value: 'alto', text: 'Alto', class: 'priority-high'}
+                {value: 'alto', text: 'Urgente', class: 'priority-high'}
             ];
             opciones.forEach(function(opcion) {
                 var optionElement = document.createElement('option');
