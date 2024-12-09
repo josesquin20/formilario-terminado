@@ -348,72 +348,24 @@
             button.classList.add('selected');
         }
 
-        function duplicarCampos() {
-            var camposContainer = document.getElementById('campos');
-            var campoOriginal = document.querySelector('.form-field').cloneNode(true);
+        <div class="form-field" id="campo-1">
+    <label for="titulo-1" class="required">Título de los comentarios:</label>
+    <input type="text" id="titulo-1" name="titulo[]" required>
+    
+    <label for="comentarios-1" class="required">Por favor, ingrese sus comentarios:</label>
+    <textarea id="comentarios-1" name="comentarios[]" rows="4" maxlength="2000" required></textarea>
 
-            var nuevoId = camposContainer.children.length + 1;
-
-            // Actualizamos IDs y nombres
-            var nuevoCampo = document.createElement('div');
-            nuevoCampo.className = 'form-field';
-            nuevoCampo.id = `campo-${nuevoId}`;
-            
-            var etiquetaComentario = document.createElement('label');
-            etiquetaComentario.setAttribute('for', `comentarios-${nuevoId}`);
-            etiquetaComentario.innerText = 'Por favor, ingrese sus comentarios:';
-            etiquetaComentario.className = 'required';
-
-            var comentario = document.createElement('textarea');
-            comentario.id = `comentarios-${nuevoId}`;
-            comentario.name = 'comentarios[]';
-            comentario.rows = 4;
-            comentario.maxLength = 2000;
-            comentario.required = true;
-
-            var etiquetaPrioridad = document.createElement('label');
-            etiquetaPrioridad.setAttribute('for', `prioridad-${nuevoId}`);
-            etiquetaPrioridad.innerText = 'Prioridad:';
-            etiquetaPrioridad.className = 'required';
-
-            var prioridad = document.createElement('select');
-            prioridad.id = `prioridad-${nuevoId}`;
-            prioridad.name = 'prioridad[]';
-            prioridad.required = true;
-            prioridad.setAttribute('onchange', 'cambiarColor(this)');
-            prioridad.style.width = 'auto'; /* Ajusta el ancho del select */
-            var opciones = [
-                {value: 'bajo', text: 'Bajo', class: 'priority-low'},
-                {value: 'medio', text: 'Medio', class: 'priority-medium'},
-                {value: 'alto', text: 'Alto', class: 'priority-high'}
-            ];
-            opciones.forEach(function(opcion) {
-                var optionElement = document.createElement('option');
-                optionElement.value = opcion.value;
-                optionElement.innerText = opcion.text;
-                optionElement.className = opcion.class;
-                prioridad.appendChild(optionElement);
-            });
-
-            var removeButtonContainer = document.createElement('div');
-            removeButtonContainer.className = 'removeFieldButtonContainer';
-            var removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.className = 'removeFieldButton';
-            removeButton.innerText = 'X';
-            removeButton.onclick = function () {
-                eliminarCampo(this);
-            };
-            removeButtonContainer.appendChild(removeButton);
-
-            nuevoCampo.appendChild(etiquetaComentario);
-            nuevoCampo.appendChild(comentario);
-            nuevoCampo.appendChild(etiquetaPrioridad);
-            nuevoCampo.appendChild(prioridad);
-            nuevoCampo.appendChild(removeButtonContainer);
-
-            camposContainer.appendChild(nuevoCampo);
-        }
+    <label for="prioridad-1" class="required">Prioridad:</label>
+    <select id="prioridad-1" name="prioridad[]" required onchange="cambiarColor(this)">
+        <option value="bajo" class="priority-low">Bajo</option>
+        <option value="medio" class="priority-medium">Medio</option>
+        <option value="alto" class="priority-high">Alto</option>
+    </select>
+    
+    <div class="removeFieldButtonContainer">
+        <button type="button" class="removeFieldButton" onclick="eliminarCampo(this)">X</button>
+    </div>
+</div>
 
         function eliminarCampo(button) {
             var campo = button.closest('.form-field');
