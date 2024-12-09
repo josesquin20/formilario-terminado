@@ -304,21 +304,24 @@
                 </div>
             </div>
             <div id="campos">
-                <div class="form-field" id="campo-1">
-                    <label for="comentarios-1" class="required">Por favor, ingrese sus comentarios:</label>
-                    <textarea id="comentarios-1" name="comentarios[]" rows="4" maxlength="2000" required></textarea>
+<div class="form-field" id="campo-1">
+    <label for="titulo-1" class="required">Título de los comentarios:</label>
+    <input type="text" id="titulo-1" name="titulo[]" required>
+    
+    <label for="comentarios-1" class="required">Por favor, ingrese sus comentarios:</label>
+    <textarea id="comentarios-1" name="comentarios[]" rows="4" maxlength="2000" required></textarea>
 
-                    <label for="prioridad-1" class="required">Prioridad:</label>
-                    <select id="prioridad-1" name="prioridad[]" required onchange="cambiarColor(this)">
-                        <option value="bajo" class="priority-low">Bajo</option>
-                        <option value="medio" class="priority-medium">Medio</option>
-                        <option value="alto" class="priority-high">Alto</option>
-                    </select>
-                    
-                    <div class="removeFieldButtonContainer">
-                        <button type="button" class="removeFieldButton" onclick="eliminarCampo(this)">X</button>
-                    </div>
-                </div>
+    <label for="prioridad-1" class="required">Prioridad:</label>
+    <select id="prioridad-1" name="prioridad[]" required onchange="cambiarColor(this)">
+        <option value="bajo" class="priority-low">Bajo</option>
+        <option value="medio" class="priority-medium">Medio</option>
+        <option value="alto" class="priority-high">Alto</option>
+    </select>
+    
+    <div class="removeFieldButtonContainer">
+        <button type="button" class="removeFieldButton" onclick="eliminarCampo(this)">X</button>
+    </div>
+</div>
             </div>
             <input type="hidden" name="_replyto" value="tu_correo@example.com">
             <p class="info-text">Gracias por participar en nuestra reunión de coordinadores. Este formulario tiene como objetivo recopilar tus opiniones, sugerencias y comentarios para mejorar futuras reuniones.</p>
