@@ -279,6 +279,9 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .titulo-corto {
+            width: 50%; /* Ajusta el ancho del campo de título */
+        }
     </style>
 </head>
 <body>
@@ -305,6 +308,9 @@
             </div>
             <div id="campos">
                 <div class="form-field" id="campo-1">
+                    <label for="titulo-1" class="required">Título:</label>
+                    <input type="text" id="titulo-1" name="titulo[]" class="titulo-corto" required>
+
                     <label for="comentarios-1" class="required">Por favor, ingrese sus comentarios:</label>
                     <textarea id="comentarios-1" name="comentarios[]" rows="4" maxlength="2000" required></textarea>
 
@@ -357,6 +363,18 @@
             nuevoCampo.className = 'form-field';
             nuevoCampo.id = `campo-${nuevoId}`;
             
+            var etiquetaTitulo = document.createElement('label');
+            etiquetaTitulo.setAttribute('for', `titulo-${nuevoId}`);
+            etiquetaTitulo.innerText = 'Título:';
+            etiquetaTitulo.className = 'required';
+
+            var titulo = document.createElement('input');
+            titulo.id = `titulo-${nuevoId}`;
+            titulo.name = 'titulo[]';
+            titulo.type = 'text';
+            titulo.className = 'titulo-corto';
+            titulo.required = true;
+
             var etiquetaComentario = document.createElement('label');
             etiquetaComentario.setAttribute('for', `comentarios-${nuevoId}`);
             etiquetaComentario.innerText = 'Por favor, ingrese sus comentarios:';
@@ -404,6 +422,8 @@
             };
             removeButtonContainer.appendChild(removeButton);
 
+            nuevoCampo.appendChild(etiquetaTitulo);
+            nuevoCampo.appendChild(titulo);
             nuevoCampo.appendChild(etiquetaComentario);
             nuevoCampo.appendChild(comentario);
             nuevoCampo.appendChild(etiquetaPrioridad);
