@@ -314,13 +314,28 @@
                     <label for="comentarios-1" class="required">Por favor, ingrese sus comentarios:</label>
                     <textarea id="comentarios-1" name="comentarios[]" rows="4" maxlength="2000" required></textarea>
 
-                    <label for="prioridad-1" class="required">Prioridad:</label>
-                    <select id="prioridad-1" name="prioridad[]" required onchange="cambiarColor(this)">
-                        <option value="bajo" class="priority-low">Bajo</option>
-                        <option value="medio" class="priority-medium">Medio</option>
-                        <option value="alto" class="priority-high">Urgente</option>
+                    <!-- Pregunta 1: Necesario o no (escala 1 a 5) -->
+                    <p class="required">¿Es necesario o no necesario? Evalúe del 1 al 5:</p>
+                    <select name="Es-necesario-o-no-necesario-Evalúe-del-1-al-5" id="necesario-1" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="1">1 - No necesario</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Muy necesario</option>
                     </select>
-                    
+
+                    <!-- Pregunta 2: Urgente o no (escala 1 a 5) -->
+                    <p class="required">¿Es urgente o no urgente? Evalúe del 1 al 5:</p>
+                    <select name="Es-urgente-o-no-urgente-Evalúe-del-1-al-5" id="urgente-1" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="1">1 - No urgente</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Muy urgente</option>
+                    </select>
+
                     <div class="removeFieldButtonContainer">
                         <button type="button" class="removeFieldButton" onclick="eliminarCampo(this)">X</button>
                     </div>
@@ -387,28 +402,52 @@
             comentario.maxLength = 2000;
             comentario.required = true;
 
-            var etiquetaPrioridad = document.createElement('label');
-            etiquetaPrioridad.setAttribute('for', `prioridad-${nuevoId}`);
-            etiquetaPrioridad.innerText = 'Prioridad:';
-            etiquetaPrioridad.className = 'required';
+            // Pregunta 1: Necesario o no (escala 1 a 5)
+            var preguntaNecesario = document.createElement('p');
+            preguntaNecesario.innerText = '¿Es necesario o no necesario? Evalúe del 1 al 5:';
+            preguntaNecesario.className = 'required';
 
-            var prioridad = document.createElement('select');
-            prioridad.id = `prioridad-${nuevoId}`;
-            prioridad.name = 'prioridad[]';
-            prioridad.required = true;
-            prioridad.setAttribute('onchange', 'cambiarColor(this)');
-            prioridad.style.width = 'auto'; /* Ajusta el ancho del select */
-            var opciones = [
-                {value: 'bajo', text: 'Bajo', class: 'priority-low'},
-                {value: 'medio', text: 'Medio', class: 'priority-medium'},
-                {value: 'alto', text: 'Urgente', class: 'priority-high'}
+            var selectNecesario = document.createElement('select');
+            selectNecesario.name = 'Es-necesario-o-no-necesario-Evalúe-del-1-al-5';
+            selectNecesario.id = `necesario-${nuevoId}`;
+            selectNecesario.required = true;
+            var opcionesNecesario = [
+                {value: '', text: 'Seleccione una opción'},
+                {value: '1', text: '1 - No necesario'},
+                {value: '2', text: '2'},
+                {value: '3', text: '3'},
+                {value: '4', text: '4'},
+                {value: '5', text: '5 - Muy necesario'}
             ];
-            opciones.forEach(function(opcion) {
+            opcionesNecesario.forEach(function(opcion) {
                 var optionElement = document.createElement('option');
                 optionElement.value = opcion.value;
                 optionElement.innerText = opcion.text;
-                optionElement.className = opcion.class;
-                prioridad.appendChild(optionElement);
+                selectNecesario.appendChild(optionElement);
+            });
+
+            // Pregunta 2: Urgente o no (escala 1 a 5)
+            var preguntaUrgente = document.createElement('p');
+            preguntaUrgente.innerText = '¿Es urgente o no urgente? Evalúe del 1 al 5:';
+            preguntaUrgente.className = 'required';
+
+            var selectUrgente = document.createElement('select');
+            selectUrgente.name = 'Es-urgente-o-no-urgente-Evalúe-del-1-al-5';
+            selectUrgente.id = `urgente-${nuevoId}`;
+            selectUrgente.required = true;
+            var opcionesUrgente = [
+                {value: '', text: 'Seleccione una opción'},
+                {value: '1', text: '1 - No urgente'},
+                {value: '2', text: '2'},
+                {value: '3', text: '3'},
+                {value: '4', text: '4'},
+                {value: '5', text: '5 - Muy urgente'}
+            ];
+            opcionesUrgente.forEach(function(opcion) {
+                var optionElement = document.createElement('option');
+                optionElement.value = opcion.value;
+                optionElement.innerText = opcion.text;
+                selectUrgente.appendChild(optionElement);
             });
 
             var removeButtonContainer = document.createElement('div');
@@ -426,8 +465,10 @@
             nuevoCampo.appendChild(titulo);
             nuevoCampo.appendChild(etiquetaComentario);
             nuevoCampo.appendChild(comentario);
-            nuevoCampo.appendChild(etiquetaPrioridad);
-            nuevoCampo.appendChild(prioridad);
+            nuevoCampo.appendChild(preguntaNecesario);
+            nuevoCampo.appendChild(selectNecesario);
+            nuevoCampo.appendChild(preguntaUrgente);
+            nuevoCampo.appendChild(selectUrgente);
             nuevoCampo.appendChild(removeButtonContainer);
 
             camposContainer.appendChild(nuevoCampo);
