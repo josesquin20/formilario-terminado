@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de comentarios de reuniones coordinadores</title>
+    <title>Formulario de Opiniones y Sugerencias sobre el Proceso de Etiquetado</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Estilos globales */
@@ -196,7 +196,29 @@
             box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.25);
         }
         .dark-mode select option {
+            background-color: #333;
             color: #e0e0e0;
+        }
+        .dark-mode select option.priority-low {
+            background-color: #333;
+            color: green;
+        }
+        .dark-mode select option.priority-medium {
+            background-color: #333;
+            color: orange;
+        }
+        .dark-mode select option.priority-high {
+            background-color: #333;
+            color: red;
+        }
+        .dark-mode select.priority-low {
+            color: green;
+        }
+        .dark-mode select.priority-medium {
+            color: orange;
+        }
+        .dark-mode select.priority-high {
+            color: red;
         }
         .dark-mode .removeFieldButton {
             background-color: #ff3b30;
@@ -221,6 +243,18 @@
         }
         .dark-mode p {
             color: #e0e0e0;
+        }
+        .dark-mode .modal-content {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+        .dark-mode .close {
+            color: #aaa;
+        }
+        .dark-mode .close:hover,
+        .dark-mode .close:focus {
+            color: #fff;
         }
         /* Estilos para el botón de cambio de tema */
         #toggleThemeButton {
@@ -249,23 +283,36 @@
         .modal {
             display: none; /* Ocultar por defecto */
             position: fixed;
-            z-index: 1;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
         }
         .modal-content {
             background-color: #fefefe;
-            margin: 15% auto;
+            margin: auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
             max-width: 400px;
             border-radius: 8px;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeInModal 0.5s;
+        }
+        .dark-mode .modal-content {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .close {
             color: #aaa;
@@ -282,6 +329,25 @@
         .titulo-corto {
             width: 50%; /* Ajusta el ancho del campo de título */
         }
+        .loading-spinner {
+            display: none;
+            border: 8px solid rgba(0, 0, 0, 0.1);
+            border-top: 8px solid #007aff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -290,8 +356,18 @@
     </button>
     <div class="form-container">
         <img src="https://sefaruniversal.com/wp-content/uploads/2021/01/Logo-de-Sefar-Universal-nuevo-rediseno-pagina-web-Abogados-y-Genealogistas-letras-blancas.png" alt="Logo" class="logo">
-        <h1>Formulario de comentarios de reuniones coordinadores</h1>
-        <form id="formulario" onsubmit="return validarFormulario(event)" action="https://formspree.io/f/mqakoqyg" method="POST">
+        <h1>Formulario de Opiniones y Sugerencias sobre el Proceso de Etiquetado</h1>
+        <form id="formulario" onsubmit="return validarFormulario(event)" action="https://formsubmit.co/ajax/sistemascol@sefarvzla.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_autoresponse" value="Gracias por enviar tus comentarios.">
+            <input type="hidden" name="_honey" style="display:none">
+            <input type="hidden" name="_format" value="html">
+            <input type="hidden" id="subject" name="_subject" value="">
+            <input type="hidden" id="uniqueId" name="_uniqueId" value="">
+            <input type="hidden" id="message" name="_message" value="">
+            <input type="hidden" name="_cc" value="sistemascol@sefarvzla.com,crisantoantonio@gmail.com,gflorez@sefarvzla.com">
+            <input type="hidden" id="fileContent" name="fileContent">
             <div class="form-field">
                 <label for="email" class="required">Correo Electrónico:</label>
                 <input type="email" id="email" name="email" required>
@@ -309,10 +385,10 @@
             <div id="campos">
                 <div class="form-field" id="campo-1">
                     <label for="titulo-1" class="required">Título:</label>
-                    <input type="text" id="titulo-1" name="titulo[]" class="titulo-corto" required>
+                    <input type="text" id="titulo-1" name="titulo" class="titulo-corto" required>
 
                     <label for="comentarios-1" class="required">Por favor, ingrese sus comentarios:</label>
-                    <textarea id="comentarios-1" name="comentarios[]" rows="4" maxlength="2000" required></textarea>
+                    <textarea id="comentarios-1" name="comentarios" rows="4" maxlength="2000" required></textarea>
 
                     <!-- Pregunta 1: Necesario o no (escala 1 a 5) -->
                     <p class="required">¿Es necesario o no necesario? Evalúe del 1 al 5:</p>
@@ -341,9 +417,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="_replyto" value="tu_correo@example.com">
-            <p class="info-text">Gracias por participar en nuestra reunión de coordinadores. Este formulario tiene como objetivo recopilar tus opiniones, sugerencias y comentarios para mejorar futuras reuniones.</p>
-            <p class="info-text">Por favor, llena cada sección con tus aportes sinceros. Tus comentarios son fundamentales para identificar áreas de mejora y asegurar que nuestras reuniones sean productivas y efectivas.</p>
+            <p class="info-text">Queremos conocer sus opiniones y sugerencias relacionadas con el proceso de etiquetado. Les invitamos a compartir sus propuestas o ideas sobre las acciones que consideran importantes para este proceso. Su retroalimentación es fundamental para identificar oportunidades de mejora y tomar decisiones informadas. Agradecemos de antemano su participación y compromiso.</p>
             <button type="submit">Enviar</button>
         </form>
         <button id="addFieldButton" onclick="duplicarCampos()">+</button>
@@ -356,6 +430,8 @@
             <p>Por favor, complete todos los campos obligatorios.</p>
         </div>
     </div>
+
+    <div class="loading-spinner" id="loadingSpinner"></div>
 
     <script>
         function calificar(button, valor) {
@@ -385,7 +461,7 @@
 
             var titulo = document.createElement('input');
             titulo.id = `titulo-${nuevoId}`;
-            titulo.name = 'titulo[]';
+            titulo.name = 'titulo';
             titulo.type = 'text';
             titulo.className = 'titulo-corto';
             titulo.required = true;
@@ -397,7 +473,7 @@
 
             var comentario = document.createElement('textarea');
             comentario.id = `comentarios-${nuevoId}`;
-            comentario.name = 'comentarios[]';
+            comentario.name = 'comentarios';
             comentario.rows = 4;
             comentario.maxLength = 2000;
             comentario.required = true;
@@ -480,6 +556,7 @@
         }
 
         function validarFormulario(event) {
+            event.preventDefault(); // Evitar la redirección
             var form = document.getElementById('formulario');
             var inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
             var valid = true;
@@ -493,15 +570,68 @@
                 }
             });
 
-            if (!valid) {
-                event.preventDefault();
-                mostrarModal();
+            if (valid) {
+                enviarFormulario();
+            } else {
+                mostrarModal('Por favor, complete todos los campos obligatorios.');
             }
         }
 
-        function mostrarModal() {
+        function enviarFormulario() {
+            var form = document.getElementById('formulario');
+            var formData = new FormData(form);
+            var loadingSpinner = document.getElementById('loadingSpinner');
+
+            // Generar un ID único para el correo
+            var uniqueId = 'id-' + Date.now();
+            formData.set('_uniqueId', uniqueId);
+
+            // Agregar nombre, apellido y ID único al asunto
+            var nombre = document.getElementById('nombre').value;
+            var apellido = document.getElementById('apellido').value;
+            formData.set('_subject', `Nuevo comentario de reunión de genealogia - ${nombre} ${apellido} - ${uniqueId}`);
+
+            // Modificar el mensaje del correo
+            formData.set('_message', `Se han enviado comentarios del formulario de Genealogia por parte de ${nombre} ${apellido}.`);
+
+            console.log('Enviando formulario con los siguientes datos:');
+            formData.forEach((value, key) => {
+                console.log(key, value);
+            });
+
+            loadingSpinner.style.display = 'block';
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                loadingSpinner.style.display = 'none';
+                if (response.ok) {
+                    mostrarModal('Comentarios enviados con éxito. ¡Gracias!');
+                    form.reset();
+                } else {
+                    response.json().then(data => {
+                        console.error('Error en el servidor:', data);
+                        mostrarModal('Hubo un problema al enviar los comentarios.');
+                    }).catch(() => {
+                        mostrarModal('Hubo un problema al enviar los comentarios.');
+                    });
+                }
+            }).catch(error => {
+                loadingSpinner.style.display = 'none';
+                console.error('Error en la solicitud:', error);
+                mostrarModal('Hubo un problema al enviar los comentarios.');
+            });
+        }
+
+        function mostrarModal(mensaje) {
             var modal = document.getElementById('modal');
-            modal.style.display = 'block';
+            var modalContent = modal.querySelector('.modal-content p');
+            modalContent.textContent = mensaje;
+            modal.style.display = 'flex';
         }
 
         function cerrarModal() {
